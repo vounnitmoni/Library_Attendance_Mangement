@@ -21,19 +21,24 @@ import com.attmanager.spring.att.repository.StudentJoinLibraryRepository;
 @RequestMapping("/api/v1")
 public class GeneralController {
     @Autowired StudentJoinLibraryRepository studentJoinLibraryRepository;
-
+    
     @PostMapping("/joinlibrary")
     public ResponseEntity<?> joinLibrary(@Valid @RequestBody JoinLibraryRequest jRequest){
         LocalTime joinTime = LocalTime.now();
         LocalDate joinDate = LocalDate.now();
-        LocalDate dateCompare = studentJoinLibraryRepository.studentJoinDate(jRequest.getSid());
-        if(dateCompare.isEqual(joinDate)){
-            return ResponseEntity.badRequest().body(new MessageResponse("You have already joined!"));
-        }
         StudentJoinLibrary sJoinLibrary = new StudentJoinLibrary(jRequest.getSid(),
-                                                                 joinTime,
-                                                                 joinDate);
-        studentJoinLibraryRepository.save(sJoinLibrary);                                                        
+                                                                    joinTime,
+                                                                    joinDate);
+        if(!studentJoinLibraryRepository.existsByStudentid(jRequest.getSid())){
+            studentJoinLibraryRepository.save(sJoinLibrary);
+            return ResponseEntity.ok(new MessageResponse("You have never join library before! But we appreciate on your first time of being here"));
+        }else{
+            if(studentJoinLibraryRepository.studentJoinDate(jRequest.getSid()).isEqual(joinDate)){
+                return ResponseEntity.badRequest().body(new MessageResponse("You have already joined!"));
+            }
+        }
+            studentJoinLibraryRepository.save(sJoinLibrary);
+                                                              
         return ResponseEntity.ok(new MessageResponse("You have successfully joined!"));
     }
 }

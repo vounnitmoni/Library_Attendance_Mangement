@@ -2,7 +2,10 @@ package com.attmanager.spring.att.models;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Table(name = "students")
 public class Student {
     @Id
+    @Column(name = "id")
     private String id;
     private String name;
 
@@ -29,6 +33,18 @@ public class Student {
     private Integer gender;
     private String province;
 
+    
+
+    public Student(String id, String name, LocalDate dob, Department department, Year year, Integer gender,
+            String province) {
+        this.id = id;
+        this.name = name;
+        this.dob = dob;
+        this.department = department;
+        this.year = year;
+        this.gender = gender;
+        this.province = province;
+    }
     public Student(String name, LocalDate dob, Integer gender, String province) {
         this.name = name;
         this.dob = dob;

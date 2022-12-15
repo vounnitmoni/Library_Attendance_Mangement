@@ -23,10 +23,12 @@ public class StudentJoinLibrary {
     private Long id;
 
     @ManyToOne(targetEntity = Student.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "student", referencedColumnName = "id", insertable = false , updatable = false)
-    private Student student;
-    @Column(name = "student")
+    @JoinColumn(name = "student_id", referencedColumnName = "id", insertable = false , updatable = false)
+    private Student studentId;
+    
+    @Column(name = "student_id")
     private String studentid;
+    
     
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime joinTime;
@@ -51,13 +53,7 @@ public class StudentJoinLibrary {
         this.id = id;
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
+    
 
     public LocalTime getJoinTime() {
         return joinTime;
@@ -81,6 +77,14 @@ public class StudentJoinLibrary {
 
     public void setStudentid(String studentid) {
         this.studentid = studentid;
+    }
+
+    public Student getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Student studentId) {
+        this.studentId = studentId;
     }
 
     
