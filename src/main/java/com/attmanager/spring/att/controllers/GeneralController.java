@@ -14,14 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.attmanager.spring.att.models.StudentJoinLibrary;
 import com.attmanager.spring.att.payload.request.JoinLibraryRequest;
-import com.attmanager.spring.att.payload.response.MessageResponse;
+import com.attmanager.spring.att.payload.response.JoinLibraryResponse;
 import com.attmanager.spring.att.repository.StudentJoinLibraryRepository;
+import com.attmanager.spring.att.repository.StudentRepository;
 
 @RestController
 @RequestMapping("/api/v1")
 public class GeneralController {
     @Autowired StudentJoinLibraryRepository studentJoinLibraryRepository;
-    
+    @Autowired StudentRepository studentRepository;
     @PostMapping("/joinlibrary")
     public ResponseEntity<?> joinLibrary(@Valid @RequestBody JoinLibraryRequest jRequest){
         LocalTime joinTime = LocalTime.now();
@@ -29,16 +30,20 @@ public class GeneralController {
         StudentJoinLibrary sJoinLibrary = new StudentJoinLibrary(jRequest.getSid(),
                                                                     joinTime,
                                                                     joinDate);
-        if(!studentJoinLibraryRepository.existsByStudentid(jRequest.getSid())){
-            studentJoinLibraryRepository.save(sJoinLibrary);
-            return ResponseEntity.ok(new MessageResponse("You have never join library before! But we appreciate on your first time of being here"));
-        }else{
-            if(studentJoinLibraryRepository.studentJoinDate(jRequest.getSid()).isEqual(joinDate)){
-                return ResponseEntity.badRequest().body(new MessageResponse("You have already joined!"));
-            }
-        }
+        // if(!studentJoinLibraryRepository.existsByStudentid(jRequest.getSid())){
+        //     studentJoinLibraryRepository.save(sJoinLibrary);
+        //     return ResponseEntity.ok(new MessageResponse("You have never join library before! But we appreciate on your first time of being here"));
+        // }else{
+        //     if(studentJoinLibraryRepository.studentJoinDate(jRequest.getSid()).isEqual(joinDate)){
+        //         return ResponseEntity.badRequest().body(new MessageResponse("You have already joined!"));
+        //     }
+        // }
             studentJoinLibraryRepository.save(sJoinLibrary);
                                                               
-        return ResponseEntity.ok(new MessageResponse("You have successfully joined!"));
+        return ResponseEntity.ok().body(new JoinLibraryResponse(jRequest.getSid(), 
+                                                                studentRepository.findStudentName(jRequest.getSid()), 
+                                                                studentRepository.findStudentProfile(jRequest.getSid()),
+                                                                "You have succefully joined!"));
     }
 }
+

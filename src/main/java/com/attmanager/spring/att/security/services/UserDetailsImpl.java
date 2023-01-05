@@ -21,7 +21,6 @@ public class UserDetailsImpl implements UserDetails {
 
   private String email;
 
-  @JsonIgnore
   private String password;
 
   private Collection<? extends GrantedAuthority> authorities;
@@ -46,6 +45,11 @@ public class UserDetailsImpl implements UserDetails {
         user.getEmail(),
         user.getPassword(), 
         authorities);
+  }
+  
+
+  public UserDetailsImpl(String password) {
+    this.password = password;
   }
 
   @Override

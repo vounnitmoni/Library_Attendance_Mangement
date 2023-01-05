@@ -15,7 +15,7 @@ public interface StudentJoinLibraryRepository extends JpaRepository<StudentJoinL
     @Query(value = "select join_date from attmanger.student_join_library where student_id = :id and id = (select max(id) from attmanger.student_join_library)", nativeQuery = true)
     LocalDate studentJoinDate(@Param("id") String id);
 
-    @Query(value = "select * from attmanger.student_join_library where join_date = :date", nativeQuery = true)
+    @Query(value = "select * from attmanger.student_join_library where join_date = :date group by student_id", nativeQuery = true)
     List<StudentJoinLibrary> joinInfoByDate(@Param("date") LocalDate date);
 
     @Query(value = "select * from attmanger.student_join_library where join_date between :date1 and :date2", nativeQuery = true)

@@ -4,10 +4,9 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -33,10 +32,15 @@ public class Student {
     private Integer gender;
     private String province;
 
+    @Lob
+    private byte[] profilePic;
     
+    @ManyToOne
+    @JoinColumn(name = "academic_year", referencedColumnName = "id")
+    private AcademicYear academicYear;
 
     public Student(String id, String name, LocalDate dob, Department department, Year year, Integer gender,
-            String province) {
+            String province, byte[] profilePic) {
         this.id = id;
         this.name = name;
         this.dob = dob;
@@ -44,6 +48,7 @@ public class Student {
         this.year = year;
         this.gender = gender;
         this.province = province;
+        this.profilePic = profilePic;
     }
     public Student(String name, LocalDate dob, Integer gender, String province) {
         this.name = name;
@@ -95,8 +100,11 @@ public class Student {
     public void setYear(Year year) {
         this.year = year;
     }
+    public byte[] getProfilePic() {
+        return profilePic;
+    }
+    public void setProfilePic(byte[] profilePic) {
+        this.profilePic = profilePic;
+    }
     
-
-    
-
 }

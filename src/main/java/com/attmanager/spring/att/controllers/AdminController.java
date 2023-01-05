@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,8 +49,14 @@ public class AdminController {
     @Autowired RoleRepository roleRepository;
 
     @GetMapping("/todayjoins")
-    public List<StudentJoinLibrary> sJoinLibrary(){
-        return studentJoinLibraryRepository.joinInfoByDate(nowDate);
+    public ResponseEntity<?> joinToday(){
+        List<StudentJoinLibrary> studentJoin = studentJoinLibraryRepository.joinInfoByDate(nowDate);
+        if(studentJoin==null){
+            return ResponseEntity.badRequest().body(new MessageResponse("No student joins yet!"));
+        }else{
+            return ResponseEntity.ok().body(studentJoinLibraryRepository.joinInfoByDate(nowDate));
+        }
+        
     }
 
     @PostMapping("/manualreport")

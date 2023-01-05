@@ -52,11 +52,11 @@ public class WebSecurityConfig {
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
     return authConfig.getAuthenticationManager();
   }
-
   @Bean
-  public PasswordEncoder passwordEncoder() {
+  public PasswordEncoder passwordEncoder(){
     return new BCryptPasswordEncoder();
   }
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
