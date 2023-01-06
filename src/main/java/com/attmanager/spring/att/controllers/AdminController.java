@@ -114,6 +114,16 @@ public class AdminController {
         return ResponseEntity.ok().body(result);
     }
 
+    @PostMapping("/reportbystudentdepandyearanddate")
+    public ResponseEntity<?> reportByStudentDepAndDateWithDate(@Valid @RequestBody ManualReportRequest mRequest){
+        List<Object[]> report = studentJoinLibraryRepository.reportByStudentDepAndYearWithDate(mRequest.getFromDate(), mRequest.getToDate());
+        List<ReportByDepAndYear> result = new ArrayList<>((report.size()));
+        for(Object[] objarr : report){
+            result.add(new ReportByDepAndYear((String) objarr[0], (BigInteger) objarr[1]));
+        }
+        return ResponseEntity.ok().body(result);
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {

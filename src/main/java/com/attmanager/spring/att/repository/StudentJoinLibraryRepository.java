@@ -53,5 +53,12 @@ public interface StudentJoinLibraryRepository extends JpaRepository<StudentJoinL
     "group by department_and_year", nativeQuery= true)
     List<Object[]> reportByStudentDepAndYear();
 
+    @Query(value = "select concat(departments.department,'_', year.year) as department_and_year, count(distinct students.department, join_date) as quantity from attmanger.student_join_library " +
+    "inner join attmanger.students on students.id = student_join_library.student_id " + 
+    "inner join attmanger.departments on students.department = departments.id " +
+    "inner join attmanger.year on students.year = year.id where student_join_library.join_date between :date1 and :date2 " +
+    "group by department_and_year", nativeQuery= true)
+    List<Object[]> reportByStudentDepAndYearWithDate(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2);
+
     Boolean existsByStudentid(String studentid);
 }
