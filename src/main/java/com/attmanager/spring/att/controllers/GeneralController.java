@@ -3,7 +3,6 @@ package com.attmanager.spring.att.controllers;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.attmanager.spring.att.models.Student;
 import com.attmanager.spring.att.models.StudentJoinLibrary;
 import com.attmanager.spring.att.payload.request.JoinLibraryRequest;
 import com.attmanager.spring.att.payload.response.JoinLibraryResponse;
-import com.attmanager.spring.att.payload.response.MessageResponse;
 import com.attmanager.spring.att.payload.response.ResponseJoinLibBadRequest;
 import com.attmanager.spring.att.repository.StudentJoinLibraryRepository;
 import com.attmanager.spring.att.repository.StudentRepository;

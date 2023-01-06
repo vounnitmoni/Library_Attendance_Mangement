@@ -27,6 +27,7 @@ import com.attmanager.spring.att.models.Student;
 import com.attmanager.spring.att.models.User;
 import com.attmanager.spring.att.payload.request.ChangePasswordRequest;
 import com.attmanager.spring.att.payload.response.MessageResponse;
+import com.attmanager.spring.att.payload.response.SuccessWithMessageResponse;
 import com.attmanager.spring.att.payload.response.UserPasswordResponse;
 import com.attmanager.spring.att.repository.StudentRepository;
 import com.attmanager.spring.att.repository.UserRepository;
@@ -48,10 +49,10 @@ public class AdminOperationController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         Boolean isMatch = encoder.matches(cpRequest.getOld_password(),userRepository.userPassword(userDetails.getUsername()));
         if(!isMatch){
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Your old password is wrong!"));
+            return ResponseEntity.badRequest().body(new SuccessWithMessageResponse("Error: Your old password is wrong!", false));
         }else{
             if(!cpRequest.getNew_password().equalsIgnoreCase(cpRequest.getAgain_newpassword())){
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: New passwords are not match! "));
+                return ResponseEntity.badRequest().body(new SuccessWithMessageResponse("Error: New passwords are not match!", true));
             }else{
                 userRepository.findById(userDetails.getId()).map((user) -> {
                     user.setPassword(encoder.encode(cpRequest.getNew_password()));
@@ -61,11 +62,11 @@ public class AdminOperationController {
             }
         }
         if(!cpRequest.getNew_password().equalsIgnoreCase(cpRequest.getAgain_newpassword())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: New passwords are not match!"));
+            return ResponseEntity.badRequest().body(new SuccessWithMessageResponse("Error: New passwords are not match!", false));
         }
 
 
-        return ResponseEntity.ok().body(new MessageResponse("Password is sucessfully changed!"));
+        return ResponseEntity.ok().body(new SuccessWithMessageResponse("Password is sucessfully changed!", true));
     }
 
     @PutMapping("/updatestudentprofile/{id}")
@@ -78,7 +79,7 @@ public class AdminOperationController {
             }
             return studentRepository.save(student);
         });
-        return ResponseEntity.ok().body(new MessageResponse("Success!"));
+        return ResponseEntity.ok().body(new SuccessWithMessageResponse("Success!", true));
     }
 
     @GetMapping("/testuser")

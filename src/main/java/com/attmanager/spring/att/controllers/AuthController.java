@@ -28,6 +28,7 @@ import com.attmanager.spring.att.models.User;
 import com.attmanager.spring.att.payload.request.LoginRequest;
 import com.attmanager.spring.att.payload.request.SignupRequest;
 import com.attmanager.spring.att.payload.response.MessageResponse;
+import com.attmanager.spring.att.payload.response.SuccessWithMessageResponse;
 import com.attmanager.spring.att.payload.response.UserInfoResponse;
 import com.attmanager.spring.att.repository.RoleRepository;
 import com.attmanager.spring.att.repository.UserRepository;
@@ -82,6 +83,6 @@ public class AuthController {
   public ResponseEntity<?> logoutUser() {
     ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-        .body(new MessageResponse("You've been signed out!"));
+        .body(new SuccessWithMessageResponse("You have succesfully signed out!", true));
   }
 }

@@ -31,6 +31,7 @@ import com.attmanager.spring.att.payload.response.MessageResponse;
 import com.attmanager.spring.att.payload.response.ReportByDep;
 import com.attmanager.spring.att.payload.response.ReportByDepAndYear;
 import com.attmanager.spring.att.payload.response.StudentJoinLibraryByYear;
+import com.attmanager.spring.att.payload.response.SuccessWithMessageResponse;
 import com.attmanager.spring.att.repository.RoleRepository;
 import com.attmanager.spring.att.repository.StudentJoinLibraryRepository;
 import com.attmanager.spring.att.repository.UserRepository;
@@ -142,7 +143,7 @@ public class AdminController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new SuccessWithMessageResponse("User has successfully registered! ", true));
   }
 
 }
